@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+      <groupId>org.acme.demo20230302</groupId>
+      <artifactId>demo20230302-graalvmwrongerror</artifactId>
+      <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>module2</artifactId>
+  <name>${project.artifactId}</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.acme.demo20230302</groupId>
+      <artifactId>module1</artifactId> <!-- notice: the content of module1 is indeed target of the shade -->
+      <version>${project.version}</version>
+      <optional>true</optional> <!-- used to avoid transitive dependency, comply per enforcment rule, making sure module3 use the shaded classes of module1 inside of module2(this module) -->
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <filters>
+                <filter>
+                  <artifact>org.acme.demo20230302:module1</artifact>
+                  <includes>
+                    <include>org/acme/demo20230302/module1/MyClass1**</include>
+                    <include>org/acme/demo20230302/module1/TraitA**</include>
+                    <include>org/acme/demo20230302/module1/MyClass2**</include>
+                    <!-- intentionally omitting TraitB, by mistake, JVM mode would be "fine" for as long b() is not invoked with CNFExpresion, while Graalvm reports "wrong" missing type -->
+                  </includes>
+                </filter>
+              </filters>
+              <createSourcesJar>true</createSourcesJar>
+              <minimizeJar>true</minimizeJar>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
