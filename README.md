@@ -3,8 +3,8 @@ Wrong "unresolved type" reported during native-image compilation: the actual mis
 ## TL;DR:
 
 ```diff
--_expected_:    ... Discovered unresolved type during parsing: org.acme.demo20230302.module1.TraitB
-+_got instead_: ... Discovered unresolved type during parsing: org.acme.demo20230302.module1.MyClass2
+-_I received_: ... Discovered unresolved type during parsing: org.acme.demo20230302.module1.MyClass2
++_I expected_: ... Discovered unresolved type during parsing: org.acme.demo20230302.module1.TraitB
 ```
 
 ## Details
