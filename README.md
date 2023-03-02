@@ -18,8 +18,14 @@ However by human mistake and omission one interface from module1 is forgotten to
 A `module3` packages `module2` as a self-containing application.
 As such, it does not depend on module1, just directly on module2.
 
-`mvn clean install` (not native) _compiles_ without error.
-Naturally, using the artifact from module3 may exhibit java.lang.ClassNotFoundException due to the omission above.
+`mvn clean install` (not native) _compiles_ without error.<br />
+Naturally, using the artifact from module3 _may_ exhibit java.lang.ClassNotFoundException due to the omission above.<br />
+e.g.: at runtime
+```
+Caused by: java.lang.ClassNotFoundException: org.acme.demo20230302.module1.TraitB ...
+```
+
+Please notice as we would expect, the error points at `TraitB` missing.
 
 We come to the "unresolved type" reported during native-image compilation.
 
