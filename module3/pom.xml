@@ -87,26 +87,12 @@
                 </goals>
                 <phase>package</phase>
               </execution>
-              <!-- <execution>
-                    <id>test-native</id>
-                    <goals>
-                        <goal>test</goal>
-                    </goals>
-                    <phase>test</phase>
-                </execution> -->
             </executions>
             <configuration>
                 <fallback>false</fallback>
                 <buildArgs>
-                    <arg>--link-at-build-time --initialize-at-build-time</arg>
+                    <arg>--link-at-build-time </arg>
                 </buildArgs>
-                <!--
-                <agent>
-                    <enabled>true</enabled>
-                    <options>
-                        <option>experimental-class-loader-support</option>
-                    </options>
-                </agent>-->
             </configuration> 
           </plugin>
         </plugins>
